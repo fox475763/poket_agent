@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POCKET AGENT 결과</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <p class="label">POCKET AGENT</p>
+    <h1>요원 파견 결과</h1>
+
+    <section class="images">
+      <img id="agentImage" class="agent" src="" alt="선택한 요원" />
+      <img id="cardImage" class="mission-card" src="" alt="오늘의 카드" />
+    </section>
+
+    <section class="info">
+      <p><span>이름</span><strong id="nameText"></strong></p>
+      <p><span>필요한 도움</span><strong id="helpText"></strong></p>
+      <p><span>선택 요원</span><strong id="agentText"></strong></p>
+      <p><span>오늘의 카드</span><strong id="cardText"></strong></p>
+    </section>
+
+    <p class="save-guide">이 화면을 캡처해서 저장해주세요.</p>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    const name = params.get("name") || "이름 없음";
+    const help = params.get("help") || "도움 내용 없음";
+    const agent = params.get("agent") || "relax";
+    const card = params.get("card") || "1";
+
+    const agentNames = {
+      relax: "RELEX AGENT",
+      cheer: "CHEER AGENT",
+      focus: "FOCUS AGENT",
+      comfort: "COMFORT AGENT",
+      love: "LOVE AGENT"
+    };
+
+    document.getElementById("nameText").textContent = name;
+    document.getElementById("helpText").textContent = help;
+    document.getElementById("agentText").textContent = agentNames[agent] || agent;
+    document.getElementById("cardText").textContent = "CARD " + card;
+
+    document.getElementById("agentImage").src = "images/agents/" + agent + ".png";
+    document.getElementById("cardImage").src = "images/cards/card" + card + ".png";
+  </script>
+</body>
+</html>
