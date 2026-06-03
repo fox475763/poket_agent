@@ -30,7 +30,7 @@
       width: min(100%, 430px);
     }
 
-    /* 이 영역만 이미지로 저장됨 */
+    /* 이 영역만 PNG로 저장됨 */
     .result-card {
       width: 100%;
       background: #fffdf3;
@@ -117,10 +117,12 @@
       font-weight: 1000;
     }
 
+    /* 요원 이미지는 정사각형 비율 유지 */
     .agent-visual {
       position: relative;
       z-index: 1;
       width: 100%;
+      aspect-ratio: 1 / 1;
       background:
         radial-gradient(circle at center, rgba(184, 240, 184, 0.45), transparent 58%),
         #f7fbf4;
@@ -130,15 +132,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 310px;
       overflow: hidden;
     }
 
     .agent {
       width: 100%;
       height: 100%;
-      max-width: 310px;
       object-fit: contain;
+      display: block;
       image-rendering: pixelated;
       filter: drop-shadow(0 8px 0 rgba(31, 51, 70, 0.10));
     }
@@ -213,12 +214,24 @@
       width: 100%;
       height: 138px;
       object-fit: contain;
+      display: block;
       filter: drop-shadow(0 6px 0 rgba(31, 51, 70, 0.10));
     }
 
-    .message-box {
+    .footer {
       position: relative;
       z-index: 1;
+      text-align: center;
+      margin: 9px 0 0;
+      color: #7a887e;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      line-height: 1.2;
+    }
+
+    /* 여기부터는 저장 이미지에 포함 안 됨 */
+    .message-box {
       margin-top: 10px;
       background: #1f3346;
       color: #fffdf3;
@@ -243,19 +256,6 @@
       line-height: 1.25;
     }
 
-    .footer {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      margin: 9px 0 0;
-      color: #7a887e;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      line-height: 1.2;
-    }
-
-    /* 저장 버튼은 captureArea 밖에 있어서 PNG에 포함 안 됨 */
     .download-area {
       margin-top: 10px;
       display: flex;
@@ -291,14 +291,6 @@
     }
 
     @media (max-height: 760px) {
-      .agent-visual {
-        height: 260px;
-      }
-
-      .mission-card {
-        height: 110px;
-      }
-
       h1 {
         font-size: 23px;
       }
@@ -307,12 +299,8 @@
         font-size: 17px;
       }
 
-      .message-box {
-        padding: 8px 10px;
-      }
-
-      .quote {
-        font-size: 13px;
+      .mission-card {
+        height: 110px;
       }
     }
 
@@ -323,10 +311,6 @@
 
       .result-card {
         padding: 12px;
-      }
-
-      .agent-visual {
-        height: 270px;
       }
 
       .middle-grid {
@@ -348,7 +332,8 @@
 
 <body>
   <div class="page-wrap">
-    <!-- 여기부터 여기까지만 PNG로 저장됨 -->
+
+    <!-- 여기만 PNG로 저장됨 -->
     <main id="captureArea" class="result-card">
       <section class="top">
         <p class="label">POCKET AGENT</p>
@@ -389,16 +374,16 @@
         </section>
       </section>
 
-      <section class="message-box">
-        <p class="save-guide">이 화면을 휴대폰에 저장해주세요.</p>
-        <p class="quote">“곁에서 도와드릴게요!”</p>
-      </section>
-
       <p class="footer">Y-COMPANY · DIGITAL AGENT DISPATCH</p>
     </main>
-    <!-- 여기까지 저장됨 -->
+    <!-- 여기까지만 PNG로 저장됨 -->
 
-    <!-- 이 버튼은 저장 이미지에 포함되지 않음 -->
+    <!-- 아래 남색 박스와 버튼은 저장 이미지에 포함 안 됨 -->
+    <section class="message-box">
+      <p class="save-guide">이 화면을 휴대폰에 저장해주세요.</p>
+      <p class="quote">“곁에서 도와드릴게요!”</p>
+    </section>
+
     <section class="download-area">
       <button id="downloadButton" class="download-button" type="button">
         이미지로 저장하기
@@ -475,10 +460,16 @@
       await waitForImages();
 
       html2canvas(captureArea, {
-        backgroundColor: null,
+        backgroundColor: "#fffdf3",
         scale: 3,
         useCORS: true,
-        allowTaint: true
+        allowTaint: true,
+        scrollX: 0,
+        scrollY: 0,
+        width: captureArea.offsetWidth,
+        height: captureArea.offsetHeight,
+        windowWidth: document.documentElement.clientWidth,
+        windowHeight: document.documentElement.clientHeight
       }).then(function (canvas) {
         const link = document.createElement("a");
 
