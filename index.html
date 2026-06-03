@@ -30,9 +30,9 @@
       width: min(100%, 430px);
     }
 
+    /* 이 영역만 이미지로 저장됨 */
     .result-card {
       width: 100%;
-      min-height: auto;
       background: #fffdf3;
       border: 3px solid #1f3346;
       border-radius: 22px;
@@ -255,6 +255,7 @@
       line-height: 1.2;
     }
 
+    /* 저장 버튼은 captureArea 밖에 있어서 PNG에 포함 안 됨 */
     .download-area {
       margin-top: 10px;
       display: flex;
@@ -347,6 +348,7 @@
 
 <body>
   <div class="page-wrap">
+    <!-- 여기부터 여기까지만 PNG로 저장됨 -->
     <main id="captureArea" class="result-card">
       <section class="top">
         <p class="label">POCKET AGENT</p>
@@ -394,7 +396,9 @@
 
       <p class="footer">Y-COMPANY · DIGITAL AGENT DISPATCH</p>
     </main>
+    <!-- 여기까지 저장됨 -->
 
+    <!-- 이 버튼은 저장 이미지에 포함되지 않음 -->
     <section class="download-area">
       <button id="downloadButton" class="download-button" type="button">
         이미지로 저장하기
@@ -402,7 +406,7 @@
     </section>
 
     <p class="download-hint">
-      버튼을 누르면 현재 결과 카드가 PNG 이미지로 저장됩니다.
+      버튼을 누르면 위 결과 카드만 PNG 이미지로 저장됩니다.
     </p>
   </div>
 
@@ -472,11 +476,14 @@
 
       html2canvas(captureArea, {
         backgroundColor: null,
-        scale: 2,
-        useCORS: true
+        scale: 3,
+        useCORS: true,
+        allowTaint: true
       }).then(function (canvas) {
         const link = document.createElement("a");
-        link.download = "pocket-agent-result.png";
+
+        const safeName = name.replace(/[\\/:*?"<>|]/g, "");
+        link.download = "pocket-agent-" + safeName + ".png";
         link.href = canvas.toDataURL("image/png");
         link.click();
 
