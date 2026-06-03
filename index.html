@@ -4,28 +4,368 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>POCKET AGENT 결과</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(162, 221, 170, 0.35), transparent 35%),
+        linear-gradient(180deg, #eef6f0 0%, #dfece4 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 18px;
+      color: #1f3346;
+    }
+
+    .page-wrap {
+      width: min(94vw, 560px);
+    }
+
+    .card {
+      width: 100%;
+      background: #fffdf3;
+      border: 4px solid #1f3346;
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow:
+        0 12px 0 rgba(31, 51, 70, 0.18),
+        0 20px 40px rgba(0, 0, 0, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 2px dashed rgba(106, 163, 111, 0.45);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    .top {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 18px;
+    }
+
+    .label {
+      display: inline-block;
+      margin: 0 0 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #e4f3df;
+      border: 2px solid #6aa36f;
+      color: #477e4c;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      line-height: 1.2;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.1;
+      color: #1f3346;
+      text-shadow: 2px 2px 0 #d6ead6;
+    }
+
+    .sub-title {
+      margin: 8px 0 0;
+      font-size: 14px;
+      color: #6b7a70;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .images {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 22px 0;
+    }
+
+    .image-box {
+      background: #f7fbf4;
+      border: 3px solid #d6e4d1;
+      border-radius: 22px;
+      padding: 14px;
+      min-height: 270px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .image-title {
+      width: 100%;
+      height: 34px;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      line-height: 1;
+      font-weight: 900;
+      color: #477e4c;
+      letter-spacing: 0.7px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .image-content {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .agent {
+      width: 100%;
+      max-width: 230px;
+      height: 220px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 8px 0 rgba(31, 51, 70, 0.12));
+    }
+
+    .mission-card {
+      width: 100%;
+      max-width: 210px;
+      height: 245px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 0 rgba(31, 51, 70, 0.12));
+    }
+
+    .info {
+      position: relative;
+      z-index: 1;
+      background: #f5f8f2;
+      border: 3px solid #d8e5d2;
+      border-radius: 22px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 10px;
+      padding: 12px 8px;
+      border-bottom: 2px dashed #d4ded1;
+      align-items: start;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info span {
+      font-size: 13px;
+      color: #6aa36f;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .info strong {
+      font-size: 17px;
+      color: #1f3346;
+      line-height: 1.45;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .message-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 18px;
+      background: #1f3346;
+      color: #fffdf3;
+      border-radius: 18px;
+      padding: 16px 14px;
+      text-align: center;
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,0.18);
+    }
+
+    .save-guide {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    .quote {
+      margin: 6px 0 0;
+      color: #b8f0b8;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-top: 14px;
+      color: #7a887e;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .download-area {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .download-button {
+      width: min(100%, 360px);
+      border: 3px solid #1f3346;
+      border-radius: 18px;
+      background: #7ed36f;
+      color: #fffdf3;
+      font-size: 17px;
+      font-weight: 900;
+      padding: 14px 18px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 rgba(31, 51, 70, 0.28);
+    }
+
+    .download-button:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 rgba(31, 51, 70, 0.28);
+    }
+
+    .download-hint {
+      margin: 10px 0 0;
+      text-align: center;
+      font-size: 12px;
+      color: #5d6d63;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 520px) {
+      .card {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .images {
+        grid-template-columns: 1fr;
+      }
+
+      .image-box {
+        min-height: 280px;
+      }
+
+      .image-title {
+        height: 34px;
+        margin-bottom: 10px;
+      }
+
+      .agent {
+        max-width: 250px;
+        height: 230px;
+      }
+
+      .mission-card {
+        max-width: 230px;
+        height: 270px;
+      }
+
+      .info-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <main class="card">
-    <p class="label">POCKET AGENT</p>
-    <h1>파견 온 요원</h1>
+  <div class="page-wrap">
+    <main id="captureArea" class="card">
+      <section class="top">
+        <p class="label">POCKET AGENT</p>
+        <h1>파견 온 요원</h1>
+        <p class="sub-title">당신을 도와줄 요원이 도착했습니다</p>
+      </section>
 
-    <section class="images">
-      <img id="agentImage" class="agent" src="" alt="선택한 요원" />
-      <img id="cardImage" class="mission-card" src="" alt="오늘의 카드" />
+      <section class="images">
+        <div class="image-box">
+          <p class="image-title">SELECTED AGENT</p>
+          <div class="image-content">
+            <img id="agentImage" class="agent" src="./images/agents/relax.png" alt="선택한 요원" />
+          </div>
+        </div>
+
+        <div class="image-box">
+          <p class="image-title">TODAY CARD</p>
+          <div class="image-content">
+            <img id="cardImage" class="mission-card" src="./images/cards/card1.png" alt="오늘의 카드" />
+          </div>
+        </div>
+      </section>
+
+      <section class="info">
+        <div class="info-row">
+          <span>이름</span>
+          <strong id="nameText"></strong>
+        </div>
+
+        <div class="info-row">
+          <span>필요한 도움</span>
+          <strong id="helpText"></strong>
+        </div>
+
+        <div class="info-row">
+          <span>선택 요원</span>
+          <strong id="agentText"></strong>
+        </div>
+
+        <div class="info-row">
+          <span>오늘의 카드</span>
+          <strong id="cardText"></strong>
+        </div>
+      </section>
+
+      <section class="message-box">
+        <p class="save-guide">이 화면을 캡처해서 저장해주세요.</p>
+        <p class="quote">“곁에서 도와드릴게요!”</p>
+      </section>
+
+      <p class="footer">Y-COMPANY · DIGITAL AGENT DISPATCH</p>
+    </main>
+
+    <section class="download-area">
+      <button id="downloadButton" class="download-button" type="button">
+        이미지로 저장하기
+      </button>
     </section>
 
-    <section class="info">
-      <p><span>이름</span><strong id="nameText"></strong></p>
-      <p><span>필요한 도움</span><strong id="helpText"></strong></p>
-      <p><span>선택 요원</span><strong id="agentText"></strong></p>
-      <p><span>오늘의 카드</span><strong id="cardText"></strong></p>
-    </section>
+    <p class="download-hint">
+      버튼을 누르면 현재 결과 카드가 PNG 이미지로 저장됩니다.
+    </p>
+  </div>
 
-    <p class="save-guide">이 화면을 캡처해서 저장해주세요.</p>
-    <p class="save-guide"> "곁에서 도와드릴게요!"</p>
-  </main>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -37,6 +377,7 @@
 
     const agentNames = {
       relax: "RELEX AGENT",
+      relex: "RELEX AGENT",
       cheer: "CHEER AGENT",
       focus: "FOCUS AGENT",
       comfort: "COMFORT AGENT",
@@ -48,8 +389,64 @@
     document.getElementById("agentText").textContent = agentNames[agent] || agent;
     document.getElementById("cardText").textContent = "CARD " + card;
 
-    document.getElementById("agentImage").src = "images/agents/" + agent + ".png";
-    document.getElementById("cardImage").src = "images/cards/card" + card + ".png";
+    const agentImage = document.getElementById("agentImage");
+    const cardImage = document.getElementById("cardImage");
+
+    agentImage.src = "./images/agents/" + agent + ".png";
+    cardImage.src = "./images/cards/card" + card + ".png";
+
+    agentImage.onerror = function () {
+      agentImage.src = "./images/agents/relax.png";
+    };
+
+    cardImage.onerror = function () {
+      cardImage.src = "./images/cards/card1.png";
+    };
+
+    function waitForImages() {
+      const images = document.querySelectorAll("#captureArea img");
+
+      const promises = Array.from(images).map(function (img) {
+        if (img.complete) {
+          return Promise.resolve();
+        }
+
+        return new Promise(function (resolve) {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      });
+
+      return Promise.all(promises);
+    }
+
+    document.getElementById("downloadButton").addEventListener("click", async function () {
+      const captureArea = document.getElementById("captureArea");
+      const button = document.getElementById("downloadButton");
+
+      button.textContent = "저장 준비 중...";
+      button.disabled = true;
+
+      await waitForImages();
+
+      html2canvas(captureArea, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true
+      }).then(function (canvas) {
+        const link = document.createElement("a");
+        link.download = "pocket-agent-result.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        button.textContent = "이미지로 저장하기";
+        button.disabled = false;
+      }).catch(function () {
+        alert("이미지 저장에 실패했어요. 화면 캡처로 저장해주세요.");
+        button.textContent = "이미지로 저장하기";
+        button.disabled = false;
+      });
+    });
   </script>
 </body>
 </html>
