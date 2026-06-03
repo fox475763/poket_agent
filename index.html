@@ -10,57 +10,61 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      width: 100%;
+      min-height: 100%;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at top, rgba(162, 221, 170, 0.35), transparent 35%),
         linear-gradient(180deg, #eef6f0 0%, #dfece4 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 18px;
       color: #1f3346;
     }
 
-    .page-wrap {
-      width: min(94vw, 560px);
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 18px;
     }
 
-    .card {
+    .page-wrap {
+      width: min(100%, 560px);
+    }
+
+    .result-card {
       width: 100%;
       background: #fffdf3;
       border: 4px solid #1f3346;
-      border-radius: 28px;
+      border-radius: 30px;
       padding: 22px;
-      box-shadow:
-        0 12px 0 rgba(31, 51, 70, 0.18),
-        0 20px 40px rgba(0, 0, 0, 0.18);
       position: relative;
       overflow: hidden;
+      box-shadow:
+        0 12px 0 rgba(31, 51, 70, 0.18),
+        0 20px 45px rgba(0, 0, 0, 0.18);
     }
 
-    .card::before {
+    .result-card::before {
       content: "";
       position: absolute;
-      inset: 10px;
+      inset: 11px;
       border: 2px dashed rgba(106, 163, 111, 0.45);
-      border-radius: 20px;
+      border-radius: 23px;
       pointer-events: none;
     }
 
     .top {
-      text-align: center;
       position: relative;
       z-index: 1;
+      text-align: center;
       margin-bottom: 18px;
     }
 
     .label {
       display: inline-block;
       margin: 0 0 8px;
-      padding: 6px 14px;
+      padding: 6px 15px;
       border-radius: 999px;
       background: #e4f3df;
       border: 2px solid #6aa36f;
@@ -74,7 +78,7 @@
     h1 {
       margin: 0;
       font-size: 34px;
-      line-height: 1.1;
+      line-height: 1.15;
       color: #1f3346;
       text-shadow: 2px 2px 0 #d6ead6;
     }
@@ -83,70 +87,74 @@
       margin: 8px 0 0;
       font-size: 14px;
       color: #6b7a70;
-      font-weight: 700;
-      line-height: 1.4;
+      font-weight: 800;
+      line-height: 1.45;
     }
 
-    .images {
+    .agent-name-box {
       position: relative;
       z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin: 22px 0;
-    }
-
-    .image-box {
-      background: #f7fbf4;
-      border: 3px solid #d6e4d1;
-      border-radius: 22px;
-      padding: 14px;
-      min-height: 270px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-    }
-
-    .image-title {
-      width: 100%;
-      height: 34px;
-      margin: 0 0 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      line-height: 1;
-      font-weight: 900;
-      color: #477e4c;
-      letter-spacing: 0.7px;
+      margin: 18px 0 14px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: #1f3346;
+      color: #fffdf3;
       text-align: center;
-      white-space: nowrap;
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,0.18);
     }
 
-    .image-content {
-      flex: 1;
+    .agent-name-label {
+      margin: 0 0 4px;
+      font-size: 11px;
+      letter-spacing: 1.4px;
+      color: #b8f0b8;
+      font-weight: 900;
+    }
+
+    .agent-name {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+      font-weight: 1000;
+    }
+
+    .agent-visual {
+      position: relative;
+      z-index: 1;
       width: 100%;
+      background:
+        radial-gradient(circle at center, rgba(184, 240, 184, 0.55), transparent 60%),
+        #f7fbf4;
+      border: 3px solid #d6e4d1;
+      border-radius: 26px;
+      padding: 16px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      min-height: 420px;
+      overflow: hidden;
+    }
+
+    .agent-visual::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(126, 211, 111, 0.25);
+      filter: blur(10px);
+      z-index: 0;
     }
 
     .agent {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      max-width: 230px;
-      height: 220px;
+      max-width: 420px;
+      aspect-ratio: 1 / 1;
       object-fit: contain;
       image-rendering: pixelated;
-      filter: drop-shadow(0 8px 0 rgba(31, 51, 70, 0.12));
-    }
-
-    .mission-card {
-      width: 100%;
-      max-width: 210px;
-      height: 245px;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 0 rgba(31, 51, 70, 0.12));
+      filter: drop-shadow(0 12px 0 rgba(31, 51, 70, 0.12));
     }
 
     .info {
@@ -156,12 +164,12 @@
       border: 3px solid #d8e5d2;
       border-radius: 22px;
       padding: 14px;
-      margin-top: 12px;
+      margin-top: 18px;
     }
 
     .info-row {
       display: grid;
-      grid-template-columns: 92px 1fr;
+      grid-template-columns: 95px 1fr;
       gap: 10px;
       padding: 12px 8px;
       border-bottom: 2px dashed #d4ded1;
@@ -187,6 +195,33 @@
       overflow-wrap: anywhere;
     }
 
+    .card-section {
+      position: relative;
+      z-index: 1;
+      margin-top: 18px;
+      background: #fffaf0;
+      border: 3px solid #d8e5d2;
+      border-radius: 24px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .card-title {
+      margin: 0 0 12px;
+      color: #477e4c;
+      font-size: 14px;
+      font-weight: 1000;
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+
+    .mission-card {
+      width: min(78%, 340px);
+      max-height: 420px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 0 rgba(31, 51, 70, 0.12));
+    }
+
     .message-box {
       position: relative;
       z-index: 1;
@@ -210,7 +245,7 @@
       margin: 6px 0 0;
       color: #b8f0b8;
       font-size: 18px;
-      font-weight: 900;
+      font-weight: 1000;
       line-height: 1.4;
     }
 
@@ -221,7 +256,8 @@
       margin-top: 14px;
       color: #7a887e;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 0.5px;
       line-height: 1.4;
     }
 
@@ -235,10 +271,10 @@
       width: min(100%, 360px);
       border: 3px solid #1f3346;
       border-radius: 18px;
-      background: #7ed36f;
-      color: #fffdf3;
+      background: #fffdf3;
+      color: #1f3346;
       font-size: 17px;
-      font-weight: 900;
+      font-weight: 1000;
       padding: 14px 18px;
       cursor: pointer;
       box-shadow: 0 6px 0 rgba(31, 51, 70, 0.28);
@@ -246,6 +282,7 @@
 
     .download-button:active {
       transform: translateY(4px);
+      background: #eef4ef;
       box-shadow: 0 2px 0 rgba(31, 51, 70, 0.28);
     }
 
@@ -259,41 +296,90 @@
     }
 
     @media (max-width: 520px) {
-      .card {
+      body {
+        padding: 12px;
+      }
+
+      .result-card {
         padding: 18px;
-        border-radius: 24px;
+        border-radius: 25px;
       }
 
       h1 {
         font-size: 30px;
       }
 
-      .images {
-        grid-template-columns: 1fr;
+      .agent-name {
+        font-size: 22px;
       }
 
-      .image-box {
-        min-height: 280px;
-      }
-
-      .image-title {
-        height: 34px;
-        margin-bottom: 10px;
+      .agent-visual {
+        min-height: 330px;
+        padding: 10px;
       }
 
       .agent {
-        max-width: 250px;
-        height: 230px;
-      }
-
-      .mission-card {
-        max-width: 230px;
-        height: 270px;
+        max-width: 330px;
       }
 
       .info-row {
         grid-template-columns: 1fr;
         gap: 4px;
+      }
+
+      .mission-card {
+        width: min(90%, 300px);
+        max-height: 360px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      body {
+        align-items: center;
+      }
+
+      .page-wrap {
+        width: min(96vw, 900px);
+      }
+
+      .result-card {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 20px;
+        padding: 26px;
+      }
+
+      .top,
+      .message-box,
+      .footer {
+        grid-column: 1 / 3;
+      }
+
+      .agent-name-box {
+        grid-column: 1 / 2;
+        margin: 0;
+      }
+
+      .agent-visual {
+        grid-column: 1 / 2;
+        min-height: 500px;
+      }
+
+      .info {
+        grid-column: 2 / 3;
+        grid-row: 2 / 4;
+        margin-top: 0;
+        align-self: start;
+      }
+
+      .card-section {
+        grid-column: 2 / 3;
+        margin-top: 0;
+        align-self: end;
+      }
+
+      .agent {
+        max-width: 500px;
       }
     }
   </style>
@@ -301,27 +387,20 @@
 
 <body>
   <div class="page-wrap">
-    <main id="captureArea" class="card">
+    <main id="captureArea" class="result-card">
       <section class="top">
         <p class="label">POCKET AGENT</p>
         <h1>파견 온 요원</h1>
         <p class="sub-title">당신을 도와줄 요원이 도착했습니다</p>
       </section>
 
-      <section class="images">
-        <div class="image-box">
-          <p class="image-title">SELECTED AGENT</p>
-          <div class="image-content">
-            <img id="agentImage" class="agent" src="./images/agents/relax.png" alt="선택한 요원" />
-          </div>
-        </div>
+      <section class="agent-name-box">
+        <p class="agent-name-label">SELECTED AGENT</p>
+        <p id="agentText" class="agent-name"></p>
+      </section>
 
-        <div class="image-box">
-          <p class="image-title">TODAY CARD</p>
-          <div class="image-content">
-            <img id="cardImage" class="mission-card" src="./images/cards/card1.png" alt="오늘의 카드" />
-          </div>
-        </div>
+      <section class="agent-visual">
+        <img id="agentImage" class="agent" src="./images/agents/relax.png" alt="선택한 요원" />
       </section>
 
       <section class="info">
@@ -336,18 +415,18 @@
         </div>
 
         <div class="info-row">
-          <span>선택 요원</span>
-          <strong id="agentText"></strong>
-        </div>
-
-        <div class="info-row">
           <span>오늘의 카드</span>
           <strong id="cardText"></strong>
         </div>
       </section>
 
+      <section class="card-section">
+        <p class="card-title">TODAY CARD</p>
+        <img id="cardImage" class="mission-card" src="./images/cards/card1.png" alt="오늘의 카드" />
+      </section>
+
       <section class="message-box">
-        <p class="save-guide">이 화면을 캡처해서 저장해주세요.</p>
+        <p class="save-guide">이 화면을 휴대폰에 저장해주세요.</p>
         <p class="quote">“곁에서 도와드릴게요!”</p>
       </section>
 
@@ -376,8 +455,8 @@
     const card = params.get("card") || "1";
 
     const agentNames = {
-      relax: "RELEX AGENT",
-      relex: "RELEX AGENT",
+      relax: "RELAX AGENT",
+      relex: "RELAX AGENT",
       cheer: "CHEER AGENT",
       focus: "FOCUS AGENT",
       comfort: "COMFORT AGENT",
