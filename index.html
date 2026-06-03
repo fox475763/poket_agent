@@ -30,7 +30,6 @@
       width: min(100%, 430px);
     }
 
-    /* 이 영역만 PNG로 저장됨 */
     .result-card {
       width: 100%;
       background: #fffdf3;
@@ -117,7 +116,6 @@
       font-weight: 1000;
     }
 
-    /* 요원 이미지는 정사각형 비율 유지 */
     .agent-visual {
       position: relative;
       z-index: 1;
@@ -136,12 +134,35 @@
     }
 
     .agent {
-      width: 100%;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
       object-fit: contain;
       display: block;
       image-rendering: pixelated;
       filter: drop-shadow(0 8px 0 rgba(31, 51, 70, 0.10));
+    }
+
+    .agent-message {
+      position: relative;
+      z-index: 1;
+      margin: 9px 0 0;
+      padding: 9px 12px;
+      background: #f5f8f2;
+      border: 3px solid #d8e5d2;
+      border-radius: 16px;
+      text-align: center;
+      color: #1f3346;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.35;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .agent-message span {
+      color: #477e4c;
     }
 
     .middle-grid {
@@ -199,6 +220,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
     }
 
     .card-title {
@@ -211,8 +233,10 @@
     }
 
     .mission-card {
-      width: 100%;
-      height: 138px;
+      max-width: 100%;
+      max-height: 138px;
+      width: auto;
+      height: auto;
       object-fit: contain;
       display: block;
       filter: drop-shadow(0 6px 0 rgba(31, 51, 70, 0.10));
@@ -230,7 +254,6 @@
       line-height: 1.2;
     }
 
-    /* 여기부터는 저장 이미지에 포함 안 됨 */
     .message-box {
       margin-top: 10px;
       background: #1f3346;
@@ -299,8 +322,13 @@
         font-size: 17px;
       }
 
+      .agent-message {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+
       .mission-card {
-        height: 110px;
+        max-height: 110px;
       }
     }
 
@@ -319,7 +347,7 @@
       }
 
       .mission-card {
-        height: 120px;
+        max-height: 120px;
       }
 
       .info-row {
@@ -333,7 +361,6 @@
 <body>
   <div class="page-wrap">
 
-    <!-- 여기만 PNG로 저장됨 -->
     <main id="captureArea" class="result-card">
       <section class="top">
         <p class="label">POCKET AGENT</p>
@@ -347,8 +374,10 @@
       </section>
 
       <section class="agent-visual">
-        <img id="agentImage" class="agent" src="./images/agents/relax.png" alt="선택한 요원" />
+        <img id="agentImage" class="agent" src="./images/agents/relax.png" alt="선택한 요원" crossorigin="anonymous" />
       </section>
+
+      <p id="agentMessage" class="agent-message"></p>
 
       <section class="middle-grid">
         <section class="info">
@@ -370,15 +399,13 @@
 
         <section class="card-section">
           <p class="card-title">TODAY CARD</p>
-          <img id="cardImage" class="mission-card" src="./images/cards/card1.png" alt="오늘의 카드" />
+          <img id="cardImage" class="mission-card" src="./images/cards/card1.png" alt="오늘의 카드" crossorigin="anonymous" />
         </section>
       </section>
 
       <p class="footer">Y-COMPANY · DIGITAL AGENT DISPATCH</p>
     </main>
-    <!-- 여기까지만 PNG로 저장됨 -->
 
-    <!-- 아래 남색 박스와 버튼은 저장 이미지에 포함 안 됨 -->
     <section class="message-box">
       <p class="save-guide">이 화면을 휴대폰에 저장해주세요.</p>
       <p class="quote">“곁에서 도와드릴게요!”</p>
@@ -414,15 +441,67 @@
       love: "LOVE AGENT"
     };
 
+    const agentLines = {
+      relax: [
+        "잠깐 쉬어가도 괜찮아요.",
+        "오늘은 마음을 천천히 내려놓아요.",
+        "숨을 고르면 다시 나아갈 수 있어요.",
+        "조용히 곁에서 지켜드릴게요.",
+        "무리하지 않아도 충분히 잘하고 있어요."
+      ],
+      relex: [
+        "잠깐 쉬어가도 괜찮아요.",
+        "오늘은 마음을 천천히 내려놓아요.",
+        "숨을 고르면 다시 나아갈 수 있어요.",
+        "조용히 곁에서 지켜드릴게요.",
+        "무리하지 않아도 충분히 잘하고 있어요."
+      ],
+      cheer: [
+        "오늘도 충분히 해낼 수 있어요!",
+        "작은 한 걸음도 멋진 출발이에요.",
+        "힘이 필요할 때 제가 응원할게요!",
+        "지금의 용기가 분명 빛날 거예요.",
+        "조금만 더, 함께 힘내봐요!"
+      ],
+      focus: [
+        "지금 해야 할 일 하나에만 집중해봐요.",
+        "복잡한 생각은 잠시 정리해드릴게요.",
+        "차분히 하나씩 해결하면 괜찮아요.",
+        "흐트러진 마음을 다시 모아봐요.",
+        "중요한 것부터 천천히 잡아드릴게요."
+      ],
+      comfort: [
+        "괜찮아요, 지금 마음도 소중해요.",
+        "말하지 않아도 충분히 이해하고 있어요.",
+        "오늘은 스스로를 조금 더 안아주세요.",
+        "힘든 마음을 혼자 두지 않을게요.",
+        "따뜻한 위로가 필요할 때 곁에 있을게요."
+      ],
+      love: [
+        "당신의 마음은 충분히 소중해요.",
+        "오늘도 다정한 마음을 잊지 말아요.",
+        "사랑받을 준비는 이미 되어 있어요.",
+        "마음이 닿는 순간을 함께 지켜볼게요.",
+        "따뜻한 연결이 곧 찾아올 거예요."
+      ]
+    };
+
+    const agentKey = agent.toLowerCase();
+    const lineList = agentLines[agentKey] || agentLines.relax;
+    const randomLine = lineList[Math.floor(Math.random() * lineList.length)];
+
     document.getElementById("nameText").textContent = name;
     document.getElementById("helpText").textContent = help;
-    document.getElementById("agentText").textContent = agentNames[agent] || agent;
+    document.getElementById("agentText").textContent = agentNames[agentKey] || agent;
     document.getElementById("cardText").textContent = "CARD " + card;
+
+    document.getElementById("agentMessage").innerHTML =
+      "<span>" + name + "님,</span> " + randomLine;
 
     const agentImage = document.getElementById("agentImage");
     const cardImage = document.getElementById("cardImage");
 
-    agentImage.src = "./images/agents/" + agent + ".png";
+    agentImage.src = "./images/agents/" + agentKey + ".png";
     cardImage.src = "./images/cards/card" + card + ".png";
 
     agentImage.onerror = function () {
@@ -437,7 +516,7 @@
       const images = document.querySelectorAll("#captureArea img");
 
       const promises = Array.from(images).map(function (img) {
-        if (img.complete) {
+        if (img.complete && img.naturalWidth > 0) {
           return Promise.resolve();
         }
 
@@ -463,7 +542,7 @@
         backgroundColor: "#fffdf3",
         scale: 3,
         useCORS: true,
-        allowTaint: true,
+        allowTaint: false,
         scrollX: 0,
         scrollY: 0,
         width: captureArea.offsetWidth,
@@ -472,8 +551,8 @@
         windowHeight: document.documentElement.clientHeight
       }).then(function (canvas) {
         const link = document.createElement("a");
-
         const safeName = name.replace(/[\\/:*?"<>|]/g, "");
+
         link.download = "pocket-agent-" + safeName + ".png";
         link.href = canvas.toDataURL("image/png");
         link.click();
