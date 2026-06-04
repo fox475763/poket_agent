@@ -374,7 +374,7 @@
       </section>
 
       <section class="agent-visual">
-        <img id="agentImage" class="agent" src="./images/agents/relax.png" alt="선택한 요원" crossorigin="anonymous" />
+        <img id="agentImage" class="agent" src="./images/agents/relax1.png" alt="선택한 요원" crossorigin="anonymous" />
       </section>
 
       <p id="agentMessage" class="agent-message"></p>
@@ -432,9 +432,11 @@
     const agent = params.get("agent") || "relax";
     const card = params.get("card") || "1";
 
+    const agentKeyRaw = agent.toLowerCase();
+    const agentKey = agentKeyRaw === "relex" ? "relax" : agentKeyRaw;
+
     const agentNames = {
       relax: "RELAX AGENT",
-      relex: "RELAX AGENT",
       cheer: "CHEER AGENT",
       focus: "FOCUS AGENT",
       comfort: "COMFORT AGENT",
@@ -443,13 +445,6 @@
 
     const agentLines = {
       relax: [
-        "잠깐 쉬어가도 괜찮아요.",
-        "오늘은 마음을 천천히 내려놓아요.",
-        "숨을 고르면 다시 나아갈 수 있어요.",
-        "조용히 곁에서 지켜드릴게요.",
-        "무리하지 않아도 충분히 잘하고 있어요."
-      ],
-      relex: [
         "잠깐 쉬어가도 괜찮아요.",
         "오늘은 마음을 천천히 내려놓아요.",
         "숨을 고르면 다시 나아갈 수 있어요.",
@@ -486,9 +481,64 @@
       ]
     };
 
-    const agentKey = agent.toLowerCase();
+    const agentImageFiles = {
+      relax: [
+        "./images/agents/relax1.png",
+        "./images/agents/relax2.png",
+        "./images/agents/relax3.png"
+      ],
+      cheer: [
+        "./images/agents/cheer1.png",
+        "./images/agents/cheer2.png",
+        "./images/agents/cheer3.png"
+      ],
+      focus: [
+        "./images/agents/focus1.png",
+        "./images/agents/focus2.png",
+        "./images/agents/focus3.png"
+      ],
+      comfort: [
+        "./images/agents/comfort1.png",
+        "./images/agents/comfort2.png",
+        "./images/agents/comfort3.png"
+      ],
+      love: [
+        "./images/agents/love1.png",
+        "./images/agents/love2.png",
+        "./images/agents/love3.png"
+      ]
+    };
+
+    function pickRandomItem(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function setImageWithFallback(img, pathList, fallbackPath) {
+      let index = 0;
+
+      function tryLoad(path) {
+        img.onerror = function () {
+          index++;
+
+          if (index < pathList.length) {
+            tryLoad(pathList[index]);
+          } else {
+            img.onerror = null;
+            img.src = fallbackPath;
+          }
+        };
+
+        img.src = path;
+      }
+
+      tryLoad(pathList[index]);
+    }
+
     const lineList = agentLines[agentKey] || agentLines.relax;
-    const randomLine = lineList[Math.floor(Math.random() * lineList.length)];
+    const randomLine = pickRandomItem(lineList);
+
+    const imageList = agentImageFiles[agentKey] || agentImageFiles.relax;
+    const randomAgentImage = pickRandomItem(imageList);
 
     document.getElementById("nameText").textContent = name;
     document.getElementById("helpText").textContent = help;
@@ -501,12 +551,10 @@
     const agentImage = document.getElementById("agentImage");
     const cardImage = document.getElementById("cardImage");
 
-    agentImage.src = "./images/agents/" + agentKey + ".png";
-    cardImage.src = "./images/cards/card" + card + ".png";
+    const finalAgentPaths = [randomAgentImage].concat(imageList);
+    setImageWithFallback(agentImage, finalAgentPaths, "./images/agents/relax1.png");
 
-    agentImage.onerror = function () {
-      agentImage.src = "./images/agents/relax.png";
-    };
+    cardImage.src = "./images/cards/card" + card + ".png";
 
     cardImage.onerror = function () {
       cardImage.src = "./images/cards/card1.png";
